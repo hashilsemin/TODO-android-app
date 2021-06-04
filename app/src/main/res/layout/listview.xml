@@ -9,6 +9,8 @@
         android:id="@+id/textView"
         android:layout_width="240dp"
         android:layout_height="53dp"
+        android:clickable="true"
+        android:onClick="edit"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

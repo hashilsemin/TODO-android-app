@@ -20,8 +20,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity<n> extends AppCompatActivity {
+    //private final Context context;
     ArrayList<String> list = new ArrayList<>();
     EditText text;
+    SqliteManager db;
+
+
+
+    //    MainActivity() {
+//        updateList();
+//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +67,7 @@ public class MainActivity<n> extends AppCompatActivity {
                     return false;
                 }
         );
+        db= new SqliteManager(this);
     }
 
     //EditText max=findViewById(R.id.editTextTextPersonName);
@@ -75,27 +84,54 @@ public class MainActivity<n> extends AppCompatActivity {
 
 Todomodel todomodel;
 todomodel = new Todomodel(text.getText().toString(),-1);
-        database database = new database(MainActivity.this);
-        boolean success =  database.add(todomodel);
+        //database database = new database(MainActivity.this);
 
-        Toast.makeText(MainActivity.this,"succes:"+success,Toast.LENGTH_LONG).show();
+        //boolean success =  database.add(todomodel);
+        db.addItem(todomodel);
+        Toast.makeText(MainActivity.this,"succes:",Toast.LENGTH_LONG).show();
         text.getText().clear();
         updateList();
     }
     public void  deleteItem(String n){
-        database database = new database(MainActivity.this);
-        System.out.println("mmmmmmmmmmmmmmmmmmmmmmmmmm");
-        database.deleteItem(n);
+        Todomodel todomodel;
+
+        todomodel = new Todomodel("hi",Integer.parseInt(n));
+
+        //database database = new database(MainActivity.this);
+       db.deleteItem1(n);
+        updateList();
     }
+//    void updateList() {
+//        database database = new database(MainActivity.this);
+//        List<Todomodel> every = database.getevery();
+//        System.out.println(every);
+//        //Toast.makeText(this, "hh"+every, Toast.LENGTH_SHORT).show();
+//        ListAdapter adapter = new ListAdapter(every, this);
+//        ListView listview = (ListView) findViewById(R.id.listView);
+//        listview.setAdapter(adapter);
+//    }
+//    void here(context){
+//        updateList();
+//    }
     void updateList() {
-        database database = new database(MainActivity.this);
-        List<Todomodel> every = database.getevery();
+        SqliteManager sq = new SqliteManager(MainActivity.this);
+        //db=new SqliteManager(this);
+        List<Todomodel> every = sq.readAllItems();
         System.out.println(every);
         //Toast.makeText(this, "hh"+every, Toast.LENGTH_SHORT).show();
-        ListAdapter adapter = new ListAdapter(every, this);
+        ListAdapter adapter = new ListAdapter(every, this,db);
         ListView listview = (ListView) findViewById(R.id.listView);
         listview.setAdapter(adapter);
     }
-
+//    void here( int pos,Context context){
+//        SqliteManager sq = new SqliteManager(context);
+//        //db=new SqliteManager(this);
+//        List<Todomodel> every = sq.readAllItems();
+//        System.out.println(every);
+//        //Toast.makeText(this, "hh"+every, Toast.LENGTH_SHORT).show();
+//        ListAdapter adapter = new ListAdapter(every, context,db);
+//        ListView listview = (ListView)findViewById(R.id.listView);
+//        listview.setAdapter(adapter);
+//    }
 
 }
