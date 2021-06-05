@@ -27,33 +27,34 @@ public class SqliteManager extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public ArrayList<Todomodel> getData(int n){
+    public int editData(String text, int id1){
         ArrayList<Todomodel> items = new ArrayList<>();
-        String queryString = "SELECT * FROM " + DATABASE_NAME+" WHERE id= "+n;
-        SQLiteDatabase db = getReadableDatabase();
+        String queryString = "UPDATE newTodo SET task = \""+text+"  \" WHERE id = "+id1;
 
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(queryString);
         //Cursor cursor = db.rawQuery(queryString,null);
 //see above point 2 function
-        Cursor cursor = db.rawQuery(queryString,null);
-//    Cursor cursor = db.query("Items"
-//            , null// columns - null will give all
-//            , null// selection
-//            , null// selection arguments
-//            , null// groupBy
-//            , null// having
-//            , null);// no need or order by for now;
-        if(cursor.moveToFirst()){
-            do {
-                int todoId = cursor.getInt(0);
-                String todoname = cursor.getString(1);
-                Todomodel newtodo = new Todomodel(todoname, todoId);
-                items.add(newtodo);
-            }while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return items;
-
+//        Cursor cursor = db.rawQuery(queryString,null);
+////    Cursor cursor = db.query("Items"
+////            , null// columns - null will give all
+////            , null// selection
+////            , null// selection arguments
+////            , null// groupBy
+////            , null// having
+////            , null);// no need or order by for now;
+//        if(cursor.moveToFirst()){
+//            do {
+//                int todoId = cursor.getInt(0);
+//                String todoname = cursor.getString(1);
+//                Todomodel newtodo = new Todomodel(todoname, todoId);
+//                items.add(newtodo);
+//            }while (cursor.moveToNext());
+//        }
+//        cursor.close();
+//        db.close();
+//        return items;
+return 0;
 
 
     }

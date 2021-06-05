@@ -1,23 +1,20 @@
 package com.example.monday;
 
-import android.app.NotificationManager;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import java.time.chrono.MinguoChronology;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,12 +72,89 @@ public class ListAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 Log.d("jkfjdkjfdkjfk", "onClick: HELLo");
-                Log.d("msmd,smd+", "onClick:     kjjkj     "+position+"dsdsdsd"+ list.get(position).getTodo());
+                Log.d("msmd,smd+", "onClick:     kjjkj     "+position+"dsdsdsd"+ list.get(position).getTodo()+"l;l;l");
                 SqliteManager db1 = new SqliteManager(context);
-                List<Todomodel> every = db1.getData(list.get(position).getId());
-                Log.d("here", "onClick: here"+every);
+                //List<Todomodel> every = db1.editData(list.get(position).getId());
+                //Log.d("here", "onClick: here"+every);
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                final EditText edittext = new EditText(context);
+                dialogBuilder.setMessage("Edit the text");
+                dialogBuilder.setTitle("Hey ROY DON");
+                edittext.setText(list.get(position).getTodo());
+                dialogBuilder.setView(edittext);
 
+                dialogBuilder.setPositiveButton("Yes smudge", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
 
+                        //OR
+                        String YouEditTextValue = edittext.getText().toString();
+                        SqliteManager db = new SqliteManager(context);
+                        int n=db.editData(YouEditTextValue,list.get(position).getId());
+                        int idx=0;
+                        Todomodel todomodel ;
+
+                        //int y = todomodel.getId();
+                        list.get(position).setTodo(YouEditTextValue);
+                        notifyDataSetChanged();
+//                        while (idx < list.get(position).getId())
+//                        {
+//                            Log.d("msmd,smd+", "onClick: "+idx +    "kjjkj     "+position+"dsdsdsd"+ list.get(position).getId());
+//                            if(idx == position)
+//                            {
+//                                // Remove item
+//
+//                                list.set(list.get(position).getId(),todomodel.setTodo(YouEditTextValue));
+//                                notifyDataSetChanged();
+//
+//
+//                                //ArrayList2.remove(idx);
+//                                return;
+//                            }
+//                            else
+//                            {
+//                                ++idx;
+//                            }
+//                        }
+//
+//                        notifyDataSetChanged();
+                    }
+                });
+                dialogBuilder.setNegativeButton("No Smudge", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // what ever you want to do with No option.
+                    }
+                });
+
+                dialogBuilder.show();
+                // ...Irrelevant code for customizing the buttons and title
+
+//                LayoutInflater inflater = this.getLayoutInflater();
+//
+//                View dialogView= inflater.inflate(R.layout.dialog, null);
+//                dialogBuilder.setView(dialogView);
+//
+//                Button button = (Button)dialogView.findViewById(R.id.button2);
+//
+//                button.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Log.d("lkjkjkjkj", "onClick: ");
+//                        //Commond here......
+//
+//                    }
+//                });
+//
+////                EditText editText = (EditText)
+////                        dialogView.findViewById(R.id.label_field);
+////
+////                editText.setText("test label");
+//
+//                dialogBuilder.create().show();
+
+            }
+
+            private LayoutInflater getLayoutInflater() {
+                return null;
             }
         });
 
